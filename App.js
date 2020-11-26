@@ -12,6 +12,7 @@ import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import RoomScreen from "./containers/RoomScreen";
+import AroundMeScreen from "./containers/AroundMeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -62,88 +63,114 @@ export default function App() {
         </Stack.Navigator>
       ) : (
         // User is signed in
-
-        <Tab.Navigator
-          tabBarOptions={{
-            activeTintColor: "tomato",
-            inactiveTintColor: "gray",
-          }}
-        >
-          <Tab.Screen
-            name="Home"
-            options={{
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name={"ios-home"} size={size} color={color} />
-              ),
-            }}
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Tab"
+            options={{ header: () => null, animationEnabled: false }}
           >
             {() => (
-              <Stack.Navigator>
-                <Stack.Screen
+              <Tab.Navigator
+                tabBarOptions={{
+                  activeTintColor: "tomato",
+                  inactiveTintColor: "gray",
+                }}
+              >
+                <Tab.Screen
                   name="Home"
                   options={{
-                    headerTitleAlign: "center",
-
-                    headerTitle: () => (
-                      <Image
-                        style={{ width: 40, height: 40 }}
-                        source={require("./assets/img/sign.png")}
-                      />
+                    tabBarLabel: "Home",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"ios-home"} size={size} color={color} />
                     ),
                   }}
                 >
-                  {(props) => <HomeScreen {...props} />}
-                </Stack.Screen>
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Home"
+                        options={{
+                          headerTitleAlign: "center",
 
-                <Stack.Screen
-                  name="Room"
-                  options={{
-                    headerTitleAlign: "center",
+                          headerTitle: () => (
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={require("./assets/img/sign.png")}
+                            />
+                          ),
+                        }}
+                      >
+                        {(props) => <HomeScreen {...props} />}
+                      </Stack.Screen>
 
-                    headerTitle: () => (
-                      <Image
-                        style={{ width: 40, height: 40 }}
-                        source={require("./assets/img/sign.png")}
-                      />
-                    ),
-                  }}
-                >
-                  {(props) => <RoomScreen {...props} />}
-                </Stack.Screen>
+                      <Stack.Screen
+                        name="Room"
+                        options={{
+                          headerTitleAlign: "center",
 
-                <Stack.Screen
-                  name="Profile"
-                  options={{
-                    title: "User Profile",
-                  }}
-                >
-                  {() => <ProfileScreen />}
-                </Stack.Screen>
-              </Stack.Navigator>
-            )}
-          </Tab.Screen>
-          <Tab.Screen
-            name="Settings"
-            options={{
-              tabBarLabel: "Settings",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name={"ios-options"} size={size} color={color} />
-              ),
-            }}
-          >
-            {() => (
-              <Stack.Navigator>
-                <Stack.Screen
+                          headerTitle: () => (
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={require("./assets/img/sign.png")}
+                            />
+                          ),
+                        }}
+                      >
+                        {(props) => <RoomScreen {...props} />}
+                      </Stack.Screen>
+
+                      <Stack.Screen
+                        name="Profile"
+                        options={{
+                          title: "User Profile",
+                        }}
+                      >
+                        {() => <ProfileScreen />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
                   name="Settings"
-                  options={{ title: "Settings", tabBarLabel: "Settings" }}
+                  options={{
+                    tabBarLabel: "Settings",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons
+                        name={"ios-options"}
+                        size={size}
+                        color={color}
+                      />
+                    ),
+                  }}
                 >
-                  {() => <SettingsScreen setToken={setToken} />}
-                </Stack.Screen>
-              </Stack.Navigator>
+                  <Tab.Screen
+                    name="Settings"
+                    options={{
+                      tabBarLabel: "Settings",
+                      tabBarIcon: ({ color, size }) => (
+                        <Ionicons
+                          name={"ios-options"}
+                          size={size}
+                          color={color}
+                        />
+                      ),
+                    }}
+                  ></Tab.Screen>
+
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Settings"
+                        options={{ title: "Settings", tabBarLabel: "Settings" }}
+                      >
+                        {() => <SettingsScreen setToken={setToken} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+              </Tab.Navigator>
             )}
-          </Tab.Screen>
-        </Tab.Navigator>
+          </Stack.Screen>
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );
