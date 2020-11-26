@@ -8,16 +8,24 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function AroundMeScreen() {
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [permission, setPermission] = useState("denied");
+  let locateUser = "";
+
+  if (permission === "granted") {
+    locateUser = `/around?latitude=${latitude}&longitude=${longitude}`;
+  }
+  console.log(latitude, longitude);
+  console.log(locateUser);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://express-airbnb-api.herokuapp.com/rooms`
+          `https://express-airbnb-api.herokuapp.com/rooms${locateUser}`
         );
         //  console.log(response.data);
         setData(response.data);
@@ -27,21 +35,25 @@ export default function AroundMeScreen() {
       }
     };
     fetchData();
+    console.log("rooms");
   }, []);
 
   useEffect(() => {
     const askLocation = async () => {
       const response = await Location.requestPermissionsAsync();
-      console.log(response.status);
+      // console.log(response.status);
 
       if (response.status === "granted") {
         const location = await Location.getCurrentPositionAsync();
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
+        setPermission("granted");
       } else {
         console.log("Permission refusée");
+        setPermission("denied");
       }
     };
+    console.log("permission");
     askLocation();
   }, []);
   //console.log(data);
@@ -65,13 +77,13 @@ export default function AroundMeScreen() {
           showsUserLocation={true}
         >
           {data.map((item, index) => {
-            console.log(item._id);
+            // console.log(item.location);
             return (
               <MapView.Marker
                 key={item._id}
                 coordinate={{
-                  latitude: item.location[0],
-                  longitude: item.location[1],
+                  longitude: item.location[0],
+                  latitude: item.location[1],
                 }}
               />
             );

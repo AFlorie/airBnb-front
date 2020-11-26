@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/core";
 import axios from "axios";
-import { Text, View, ActivityIndicator, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
+import * as Location from "expo-location";
+import MapView from "react-native-maps";
+
+const width = Dimensions.get("window").width;
 
 export default function Roomscreen({ route }) {
   const id = route.params.id;
@@ -25,7 +36,7 @@ export default function Roomscreen({ route }) {
     };
     fetchData();
   }, []);
-  //console.log(data);
+  console.log(data);
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -93,9 +104,27 @@ export default function Roomscreen({ route }) {
             ></Image>
           </View>
           <View style={styles.hr}></View>
-          <Text style={styles.description2} numberOfLines={3}>
+          <Text style={styles.description2} numberOfLines={5}>
             {data.description}
           </Text>
+
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: data.location[1],
+              longitude: data.location[0],
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
+            }}
+            showsUserLocation={true}
+          >
+            <MapView.Marker
+              coordinate={{
+                longitude: data.location[0],
+                latitude: data.location[1],
+              }}
+            />
+          </MapView>
         </ScrollView>
       )}
     </View>
@@ -158,5 +187,11 @@ const styles = StyleSheet.create({
   description2: {
     lineHeight: 20,
     marginHorizontal: 5,
+    marginBottom: 10,
+    paddingRight: 5,
+  },
+  map: {
+    height: 300,
+    width: width,
   },
 });
