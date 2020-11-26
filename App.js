@@ -118,6 +118,34 @@ export default function App() {
                         {(props) => <RoomScreen {...props} />}
                       </Stack.Screen>
 
+                      <Tab.Screen
+                        name="AroundMe"
+                        options={{
+                          tabBarLabel: "AroundMe",
+                          tabBarIcon: ({ color, size }) => (
+                            <Ionicons
+                              name={"ios-options"}
+                              size={size}
+                              color={color}
+                            />
+                          ),
+                        }}
+                      >
+                        {() => (
+                          <Stack.Navigator>
+                            <Stack.Screen
+                              name="AroundMe"
+                              options={{
+                                title: "AroundMe",
+                                tabBarLabel: "AroundMe",
+                              }}
+                            >
+                              {() => <AroundMeScreen setToken={setToken} />}
+                            </Stack.Screen>
+                          </Stack.Navigator>
+                        )}
+                      </Tab.Screen>
+
                       <Stack.Screen
                         name="Profile"
                         options={{
@@ -142,20 +170,6 @@ export default function App() {
                     ),
                   }}
                 >
-                  <Tab.Screen
-                    name="Settings"
-                    options={{
-                      tabBarLabel: "Settings",
-                      tabBarIcon: ({ color, size }) => (
-                        <Ionicons
-                          name={"ios-options"}
-                          size={size}
-                          color={color}
-                        />
-                      ),
-                    }}
-                  ></Tab.Screen>
-
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
