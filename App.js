@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "react-native";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+
 import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
@@ -118,34 +118,6 @@ export default function App() {
                         {(props) => <RoomScreen {...props} />}
                       </Stack.Screen>
 
-                      <Tab.Screen
-                        name="AroundMe"
-                        options={{
-                          tabBarLabel: "AroundMe",
-                          tabBarIcon: ({ color, size }) => (
-                            <Ionicons
-                              name={"ios-options"}
-                              size={size}
-                              color={color}
-                            />
-                          ),
-                        }}
-                      >
-                        {() => (
-                          <Stack.Navigator>
-                            <Stack.Screen
-                              name="AroundMe"
-                              options={{
-                                title: "AroundMe",
-                                tabBarLabel: "AroundMe",
-                              }}
-                            >
-                              {() => <AroundMeScreen setToken={setToken} />}
-                            </Stack.Screen>
-                          </Stack.Navigator>
-                        )}
-                      </Tab.Screen>
-
                       <Stack.Screen
                         name="Profile"
                         options={{
@@ -157,6 +129,37 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+                <Tab.Screen
+                  name="AroundMe"
+                  options={{
+                    tabBarLabel: "AroundMe",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"md-pin"} size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="AroundMe"
+                        options={{
+                          headerTitleAlign: "center",
+
+                          headerTitle: () => (
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={require("./assets/img/sign.png")}
+                            />
+                          ),
+                        }}
+                      >
+                        {() => <AroundMeScreen setToken={setToken} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+
                 <Tab.Screen
                   name="Settings"
                   options={{
