@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Text, View } from "react-native";
 
-export default function SettingsScreen({ setToken }) {
+export default function SettingsScreen({ setToken, userToken, idUser }) {
+  console.log("idUser :", idUser);
   return (
     <View>
       <Text>Hello Settings</Text>

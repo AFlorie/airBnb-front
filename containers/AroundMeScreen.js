@@ -16,16 +16,16 @@ export default function AroundMeScreen() {
   let locateUser = "";
 
   if (permission === "granted") {
-    locateUser = `/around?latitude=${latitude}&longitude=${longitude}`;
+    locateUser = `?latitude=${latitude}&longitude=${longitude}`;
   }
-  console.log(latitude, longitude);
-  console.log(locateUser);
+  //console.log(latitude, longitude);
+  //console.log(locateUser);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://express-airbnb-api.herokuapp.com/rooms${locateUser}`
+          `https://express-airbnb-api.herokuapp.com/rooms/around${locateUser}`
         );
         //  console.log(response.data);
         setData(response.data);
@@ -35,7 +35,6 @@ export default function AroundMeScreen() {
       }
     };
     fetchData();
-    console.log("rooms");
   }, []);
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function AroundMeScreen() {
         setPermission("denied");
       }
     };
-    console.log("permission");
+
     askLocation();
   }, []);
   //console.log(data);

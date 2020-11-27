@@ -13,7 +13,7 @@ import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Constants from "expo-constants";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, idUser, setIdUser }) {
   const handleSubmit = async () => {
     if (!email || !username || !description || !password || !password2) {
       setWarning("Missing parameters !");
@@ -37,10 +37,11 @@ export default function SignUpScreen({ setToken }) {
               },
             }
           );
-          // console.log("ICI");
-          //  console.log(response.data.token);
+
+          // console.log(response.data._id);
           const userToken = response.data.token;
           setToken(userToken);
+          setIdUser(response.data._id);
         } catch (error) {
           console.log(error.message);
           setWarning("email or username already in database");

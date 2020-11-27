@@ -4,10 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 import HomeScreen from "./containers/HomeScreen";
-import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
@@ -20,6 +19,9 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [idUser, setIdUser] = useState("");
+
+  console.log(idUser);
 
   const setToken = async (token) => {
     if (token) {
@@ -55,10 +57,22 @@ export default function App() {
             name="SignIn"
             options={{ header: () => null, animationEnabled: false }}
           >
-            {() => <SignInScreen setToken={setToken} />}
+            {() => (
+              <SignInScreen
+                setToken={setToken}
+                idUser={idUser}
+                setIdUser={setIdUser}
+              />
+            )}
           </Stack.Screen>
           <Stack.Screen name="SignUp">
-            {() => <SignUpScreen setToken={setToken} />}
+            {() => (
+              <SignUpScreen
+                setToken={setToken}
+                idUser={idUser}
+                setIdUser={setIdUser}
+              />
+            )}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
@@ -117,15 +131,6 @@ export default function App() {
                       >
                         {(props) => <RoomScreen {...props} />}
                       </Stack.Screen>
-
-                      <Stack.Screen
-                        name="Profile"
-                        options={{
-                          title: "User Profile",
-                        }}
-                      >
-                        {() => <ProfileScreen />}
-                      </Stack.Screen>
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
@@ -163,13 +168,9 @@ export default function App() {
                 <Tab.Screen
                   name="Settings"
                   options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "Profile",
                     tabBarIcon: ({ color, size }) => (
-                      <Ionicons
-                        name={"ios-options"}
-                        size={size}
-                        color={color}
-                      />
+                      <FontAwesome name="user" size={size} color={color} />
                     ),
                   }}
                 >
@@ -177,9 +178,15 @@ export default function App() {
                     <Stack.Navigator>
                       <Stack.Screen
                         name="Settings"
-                        options={{ title: "Settings", tabBarLabel: "Settings" }}
+                        options={{ title: "Profile", tabBarLabel: "Profile" }}
                       >
-                        {() => <SettingsScreen setToken={setToken} />}
+                        {() => (
+                          <SettingsScreen
+                            setToken={setToken}
+                            userToken={userToken}
+                            idUser={idUser}
+                          />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

@@ -36,7 +36,7 @@ export default function Roomscreen({ route }) {
     };
     fetchData();
   }, []);
-  console.log(data);
+  //  console.log(data);
   return (
     <View style={styles.container}>
       {isLoading ? (

@@ -13,7 +13,7 @@ import {
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setToken, idUser, setIdUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState("");
@@ -38,12 +38,15 @@ export default function SignInScreen({ setToken }) {
             },
           }
         );
-        console.log("ICI");
-        console.log(response.data);
+
+        // console.log(response.data.id);
 
         if (response.data.email === email) {
           const userToken = response.data.token;
           setToken(userToken);
+          setIdUser(response.data.id);
+          console.log("signin response :", response.data.id);
+          console.log("state idUser: ", idUser);
         }
       } catch (error) {
         console.log(error.message);
