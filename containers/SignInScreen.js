@@ -12,8 +12,9 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function SignInScreen({ setToken, idUser, setIdUser }) {
+export default function SignInScreen({ setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState("");
@@ -44,9 +45,14 @@ export default function SignInScreen({ setToken, idUser, setIdUser }) {
         if (response.data.email === email) {
           const userToken = response.data.token;
           setToken(userToken);
-          setIdUser(response.data.id);
-          console.log("signin response :", response.data.id);
-          console.log("state idUser: ", idUser);
+
+          if (response.data.id) {
+            AsyncStorage.setItem("userId", response.data.id);
+          } else {
+            AsyncStorage.removeItem("userId");
+          }
+
+          // console.log("signin response :", response.data.id);
         }
       } catch (error) {
         console.log(error.message);

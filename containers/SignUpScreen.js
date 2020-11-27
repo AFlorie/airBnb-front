@@ -12,8 +12,9 @@ import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function SignUpScreen({ setToken, idUser, setIdUser }) {
+export default function SignUpScreen({ setToken }) {
   const handleSubmit = async () => {
     if (!email || !username || !description || !password || !password2) {
       setWarning("Missing parameters !");
@@ -41,7 +42,12 @@ export default function SignUpScreen({ setToken, idUser, setIdUser }) {
           // console.log(response.data._id);
           const userToken = response.data.token;
           setToken(userToken);
-          setIdUser(response.data._id);
+
+          if (response.data._id) {
+            AsyncStorage.setItem("userId", response.data._id);
+          } else {
+            AsyncStorage.removeItem("userId");
+          }
         } catch (error) {
           console.log(error.message);
           setWarning("email or username already in database");

@@ -19,9 +19,6 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
-  const [idUser, setIdUser] = useState("");
-
-  console.log(idUser);
 
   const setToken = async (token) => {
     if (token) {
@@ -57,22 +54,10 @@ export default function App() {
             name="SignIn"
             options={{ header: () => null, animationEnabled: false }}
           >
-            {() => (
-              <SignInScreen
-                setToken={setToken}
-                idUser={idUser}
-                setIdUser={setIdUser}
-              />
-            )}
+            {() => <SignInScreen setToken={setToken} />}
           </Stack.Screen>
           <Stack.Screen name="SignUp">
-            {() => (
-              <SignUpScreen
-                setToken={setToken}
-                idUser={idUser}
-                setIdUser={setIdUser}
-              />
-            )}
+            {() => <SignUpScreen setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
